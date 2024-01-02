@@ -1,0 +1,94 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import RssParser from "rss-parser";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { feeds } from "../feeds.ts";
+
+const formatDate = (isoDate: string | undefined) => {
+  if (!isoDate) return "";
+  const date = new Date(isoDate);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+// fetch each feed from feeds.blogs
+const parser = new RssParser();
+const feedPromises = feeds.blogs.map((site) => parser.parseURL(site.feed));
+const feedResults = await Promise.all(feedPromises);
+
+// add the name of the blog to each feed result
+feedResults.forEach((feedResult, index) => {
+  feedResult.originalName = feeds.blogs[index].name;
+});
+
+// sort all feed items by date
+const feedItems = feedResults
+  .flatMap((feed) =>
+    feed.items.map((item) => ({
+      ...item,
+      feedTitle: feed.originalName,
+      formattedDate: formatDate(item.isoDate),
+    })),
+  )
+  .sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)).slice(0, 50);
+	
+	// TODO: Add pagination
+
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header title={SITE_TITLE} />
+    <main>
+      <h1>Web Dev Blog Feed</h1>
+      <ul class="feed-list">
+        {
+          feedItems.map(({ feedTitle, title, link, isoDate, formattedDate }) => (
+            <li>
+              <p class="publication">{feedTitle}  <time datetime={isoDate} class="date">{formattedDate}</time></p>
+              <a class="item-link" href={link}>{title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+	.feed-list {
+		list-style: none;
+		padding: 0;
+	}
+
+	.feed-list li {
+		margin-bottom: 1rem;
+	}
+
+	.publication {
+		font-size: 1.25rem;
+		margin-bottom: 0rem;
+	}
+
+	.item-link {
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+	
+	.date {
+		margin-left: 1rem;
+		font-size: 0.8rem;
+	}
+
+</style>
