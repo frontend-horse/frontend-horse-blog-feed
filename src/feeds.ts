@@ -65,5 +65,10 @@ export const feeds = {
       url: "https://ericwbailey.website/",
       feed: "https://ericwbailey.website/feed/feed.xml",
     },
+    {
+      name: "Ben Myers",
+      url: "https://benmyers.dev/",
+      feed: "https://benmyers.dev/feed.xml",
+    },
   ],
 };
