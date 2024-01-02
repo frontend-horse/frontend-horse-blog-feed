@@ -35,7 +35,11 @@ const feedItems = feedResults
       formattedDate: formatDate(item.isoDate),
     })),
   )
-  .sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)).slice(0, 50);
+  .sort((a, b) => {
+    const dateA = new Date(a.isoDate ?? "");
+    const dateB = new Date(b.isoDate ?? "");
+    return dateB.getTime() - dateA.getTime();
+  }).slice(0, 50);
 	
 	// TODO: Add pagination
 
