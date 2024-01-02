@@ -8,7 +8,7 @@ Other PRs welcome!
 
 ## Potential TODOs
 
-- [] Add pagination
-- [] Add a Search (something like PageFind should work)
-- [] Add directions to add blogs to the list
-- [] Add YouTube channels + Designate between content types
+- [ ] Add pagination
+- [ ] Add a Search (something like PageFind should work)
+- [ ] Add directions to add blogs to the list
+- [ ] Add YouTube channels + Designate between content types
