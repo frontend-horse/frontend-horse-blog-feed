@@ -7,5 +7,7 @@ export default defineConfig({
   site: "https://example.com",
   integrations: [sitemap()],
   output: "server",
-  adapter: netlify(),
+  adapter: netlify({
+    cacheOnDemandPages: true,
+  }),
 });
