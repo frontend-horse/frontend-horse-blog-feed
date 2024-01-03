@@ -43,6 +43,7 @@ const feedItems = feedResults
 	
 	// TODO: Add pagination
 
+  Astro.response.headers.set('CDN-Cache-Control', 'public, max-age=3600, must-revalidate');
 
 ---
 
