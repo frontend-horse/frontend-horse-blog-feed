@@ -70,5 +70,10 @@ export const feeds = {
       url: "https://benmyers.dev/",
       feed: "https://benmyers.dev/feed.xml",
     },
+    {
+      name: "That HTML Blog",
+      url: "https://thathtml.blog/",
+      feed: "https://thathtml.blog/feed.xml",
+    },
   ],
 };
